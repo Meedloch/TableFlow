@@ -3,12 +3,12 @@ body {
     font-family: 'Helvetica', 'Arial', sans-serif;
 }
 .btn-primary {
-    background-color: #D3D3D3;
+    background-color: #faece0;
     color: #000;
     border: none;
 }
 input, textarea, select {
-    border: 1px solid #D3D3D3;
+    border: 1px solid #faece0;
     padding: 10px;
     font-family: 'Helvetica', 'Arial', sans-serif;
 }
