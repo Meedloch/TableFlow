@@ -1,0 +1,14 @@
+body {
+    background-color: #F5F5DC;
+    font-family: 'Helvetica', 'Arial', sans-serif;
+}
+.btn-primary {
+    background-color: #D3D3D3;
+    color: #000;
+    border: none;
+}
+input, textarea, select {
+    border: 1px solid #D3D3D3;
+    padding: 10px;
+    font-family: 'Helvetica', 'Arial', sans-serif;
+}
