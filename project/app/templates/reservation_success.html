@@ -12,6 +12,9 @@
     <p>Merci pour votre réservation. Voici les détails :</p>
     <ul class="list-group">
         <li class="list-group-item"><strong>Nombre de personnes :</strong> {{ reservation['Nombre de personnes'] }}</li>
+        <li class="list-group-item"><strong>Option classique (40€) :</strong> {{ reservation['Option classique (40€)'] }}</li>
+        <li class="list-group-item"><strong>Option dégustation (60€) :</strong> {{ reservation['Option dégustation (60€)'] }}</li>
+        <li class="list-group-item"><strong>Supplément vin (20€) :</strong> {{ reservation['Supplément vin (20€)'] }}</li>
         <li class="list-group-item"><strong>Allergies :</strong> {{ reservation['Allergies'] }}</li>
         <li class="list-group-item"><strong>Date :</strong> {{ reservation['Date'] }}</li>
         <li class="list-group-item"><strong>Heure :</strong> {{ reservation['Heure'] }}</li>
@@ -19,8 +22,10 @@
         <li class="list-group-item"><strong>Nom :</strong> {{ reservation['Nom'] }}</li>
         <li class="list-group-item"><strong>Email :</strong> {{ reservation['Email'] }}</li>
         <li class="list-group-item"><strong>Téléphone :</strong> {{ reservation['Téléphone'] }}</li>
+        <li class="list-group-item"><strong>Prix total (€) :</strong> {{ reservation['Prix total (€)'] }}</li>
     </ul>
     <a href="/" class="btn btn-primary mt-3">Retour à l'accueil</a>
 </div>
+
 </body>
 </html>
