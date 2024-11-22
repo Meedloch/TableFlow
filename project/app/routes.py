@@ -24,11 +24,11 @@ def submit_reservation():
 
     # Validation côté serveur
     if not is_valid_date(reservation_date):
-        return jsonify({"error": "La date choisie n'est pas valide ou en dehors des jours d'ouverture."}), 400
+        return render_template("error.html", message="La date choisie n'est pas valide ou en dehors des jours d'ouverture."), 400
     if not is_valid_time(reservation_date, reservation_time):
-        return jsonify({"error": "L'heure choisie n'est pas valide pour ce jour."}), 400
+        return render_template("error.html", message="L'heure choisie n'est pas valide pour ce jour."), 400
 
-    # Simuler l'enregistrement des données
+    # Préparer les détails à afficher
     reservation = {
         "Nombre de personnes": people_count,
         "Allergies": allergy_details,
@@ -39,13 +39,10 @@ def submit_reservation():
         "Email": email,
         "Téléphone": phone,
     }
-    print("Nouvelle réservation : ", reservation)  # À remplacer par un stockage réel
 
-    # Réponse de confirmation
-    return jsonify({
-        "message": "Réservation reçue avec succès.",
-        "details": reservation
-    })
+    # Rendre un template avec les détails de la réservation
+    return render_template("reservation_success.html", reservation=reservation)
+
 
 # Fonctions utilitaires
 def is_valid_date(date_str):
