@@ -1,14 +1,49 @@
+/* Couleur globale du texte */
 body {
-    background-color: #6c2322;
-    font-color:#faece0;
+    color: #faece0;
 }
-.btn-primary {
+
+/* Ajustement des liens pour s'harmoniser */
+a {
+    color: #faece0;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+    color: #ffffff; /* Optionnel : survol plus visible */
+}
+
+/* Titres principaux */
+h1, h2, h3, h4, h5, h6 {
+    color: #faece0;
+}
+
+/* Boutons */
+button, .btn {
+    color: #faece0;
+    background-color: transparent;
+    border: 2px solid #faece0;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+button:hover, .btn:hover {
     background-color: #faece0;
-    color: #000;
-    border: none;
+    color: #000; /* Texte noir pour contraste */
 }
+
+/* Champs de formulaire */
 input, textarea, select {
+    color: #faece0;
+    background-color: transparent;
     border: 1px solid #faece0;
     padding: 10px;
-    font-family: 'Helvetica', 'Arial', sans-serif;
+    font-size: 16px;
+}
+
+input::placeholder, textarea::placeholder {
+    color: #faece0; /* Placeholder harmonisé */
 }
