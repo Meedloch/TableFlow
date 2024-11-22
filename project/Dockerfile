@@ -1,17 +1,10 @@
-# Utiliser une image Python
-FROM python:3.12.3
+FROM python:3.12
 
-# Définir le répertoire de travail
 WORKDIR /app
 
-# Copier les fichiers
+COPY requirements.txt requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
+
 COPY . .
 
-# Installer les dépendances
-RUN pip install -r requirements.txt
-
-# Exposer le port
-EXPOSE 5000
-
-# Commande pour démarrer l'application
 CMD ["python", "app.py"]

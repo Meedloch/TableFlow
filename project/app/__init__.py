@@ -1,12 +1,11 @@
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
 
-# Initialisation
-app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
-app.config['SECRET_KEY'] = 'your_secret_key'
 
-# Base de données
-db = SQLAlchemy(app)
+def create_app():
+    app = Flask(__name__)
 
-from app import routes, models
+    # Importer les routes
+    from app.routes import bp as main_bp
+    app.register_blueprint(main_bp)
+
+    return app

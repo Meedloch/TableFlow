@@ -29,7 +29,7 @@
             </div>
         </div>
         <div class="mb-3" id="allergyDetails" style="display: none;">
-            <label for="allergyText" class="form-label">Veuillez décrire les allergies et pour combien de personnes</label>
+            <label for="allergyText" class="form-label">Veuillez décrire les allergies</label>
             <textarea class="form-control" id="allergyText" name="allergyText"></textarea>
         </div>
 
@@ -72,13 +72,12 @@
             <input type="tel" class="form-control" id="phone" name="phone" required>
         </div>
 
-        <!-- Bouton soumettre -->
+        <!-- Bouton -->
         <button type="submit" class="btn btn-primary">Soumettre</button>
     </form>
 </div>
 
 <script>
-    // Afficher/cacher les détails des allergies
     document.querySelectorAll('input[name="allergies"]').forEach(radio => {
         radio.addEventListener('change', () => {
             const details = document.getElementById('allergyDetails');
@@ -88,17 +87,6 @@
                 details.style.display = 'none';
             }
         });
-    });
-
-    // Restreindre les dates aux jours d'ouverture (mardi à samedi)
-    const reservationDate = document.getElementById('reservationDate');
-    reservationDate.addEventListener('change', () => {
-        const selectedDate = new Date(reservationDate.value);
-        const day = selectedDate.getUTCDay(); // 0 = Dimanche, 6 = Samedi
-        if (day === 0 || day === 1 || (day === 6 && selectedDate.getHours() < 13)) {
-            alert("Le restaurant est fermé à cette date. Veuillez choisir un autre jour.");
-            reservationDate.value = "";
-        }
     });
 </script>
 </body>
