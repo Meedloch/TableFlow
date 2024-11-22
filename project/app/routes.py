@@ -6,7 +6,7 @@ from app.models import Menu, Quote
 @app.route('/')
 def index():
     menus = Menu.query.all()
-    return render_template('index.html', menus=menus)
+    return render_template('form.html', menus=menus)
 
 
 @app.route('/quote', methods=['POST'])
