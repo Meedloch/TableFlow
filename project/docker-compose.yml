@@ -1,11 +1,20 @@
 version: '3.12'
 
 services:
-  flask-app:
-    build: .
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
     ports:
-      - "5000:5000"
-    volumes:
-      - .:/app
+      - "5000:5000"  # Mappe le port interne 5000 du backend au port 5000 de l'hôte
+    restart: always  # Redémarre automatiquement le conteneur en cas de crash
     environment:
-      - FLASK_ENV=development
+      - FLASK_ENV=production  # Configuration pour Flask (production par défaut)
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80"  # Mappe le port interne 80 du frontend au port 8080 de l'hôte
+    restart: always  # Redémarre automatiquement le conteneur en cas de crash

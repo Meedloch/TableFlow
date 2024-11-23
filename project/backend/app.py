@@ -1,4 +1,4 @@
-from app import create_app
+from project.backend.app import create_app
 
 # Créer une instance de l'application Flask.
 app = create_app()
