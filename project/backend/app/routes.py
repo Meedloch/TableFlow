@@ -11,23 +11,11 @@ FRONTEND_URL = os.getenv('FRONTEND_URL', 'http://ec2-13-53-125-177.eu-north-1.co
 @bp.route("/submit-reservation", methods=["POST"])
 def submit_reservation():
     try:
-        # Récupérer les données du formulaire
         data = request.get_json()
-        people_count = int(data["peopleCount"])
-        classic_count = int(data["classicCount"])
-        tasting_count = int(data["tastingCount"])
-        wine_count = int(data["wineSupplementCount"])
-        reservation_date = data["reservationDate"]
-        reservation_time = data["reservationTime"]
-        first_name = data["firstName"]
-        last_name = data["lastName"]
-        email = data["email"]
-        phone = data["phone"]
+        # Récupérer les champs du formulaire
+        # ...
 
-        # Calculer le coût total
-        total_price = (classic_count * 40) + (tasting_count * 60) + (wine_count * 20)
-
-        # Créer une réservation avec un numéro unique
+        # Créer la réservation
         reservation = Reservation(
             people_count=people_count,
             classic_count=classic_count,
@@ -43,10 +31,10 @@ def submit_reservation():
         db.session.add(reservation)
         db.session.commit()
 
-        # Retourner les détails de la réservation avec le numéro unique
+        # Retourner les détails avec le numéro unique
         return jsonify({
             "status": "success",
-            "reservation_id": reservation.reservation_id,  # Retourner le numéro unique
+            "reservation_id": reservation.reservation_id,  # Ajout du numéro unique
             "reservation": {
                 "Nombre de personnes": people_count,
                 "Option classique (40€)": classic_count,
