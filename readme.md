@@ -1,4 +1,4 @@
-# Plateforme de Réservation pour Restaurants
+# TableFlow - Devis instantanés pour groupes
 
 Une application web conçue pour simplifier les réservations de tables pour les restaurants, avec des fonctionnalités adaptées pour les clients et les restaurateurs.
 
@@ -62,8 +62,8 @@ Une application web conçue pour simplifier les réservations de tables pour les
     ```bash
    docker-compose up --build
 4. Accédez à l'application
-    Frontend : http://ec2-13-53-125-177.eu-north-1.compute.amazonaws.com:8080/
-    Backend API : http://ec2-13-53-125-177.eu-north-1.compute.amazonaws.com:5000/
+    - Frontend : http://ec2-13-53-125-177.eu-north-1.compute.amazonaws.com:8080/
+    - Backend API : http://ec2-13-53-125-177.eu-north-1.compute.amazonaws.com:5000/
 
 ## **Utilisation**
 
