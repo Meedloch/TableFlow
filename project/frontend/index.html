@@ -136,11 +136,8 @@
 
         const result = await response.json();
         if (result.reservation && result.reservation_id) {
-            // Stocker les détails de la réservation et le numéro de réservation
             localStorage.setItem("reservation", JSON.stringify(result.reservation));
             localStorage.setItem("reservation_id", result.reservation_id);
-
-            // Rediriger vers la page de résultats
             window.location.href = "/result";
         } else {
             throw new Error("Aucune réservation trouvée.");
@@ -150,6 +147,7 @@
         alert(`Une erreur est survenue : ${error.message}`);
     }
 }
+
 document.getElementById("reservationForm").addEventListener("submit", submitForm);
 
 </script>
