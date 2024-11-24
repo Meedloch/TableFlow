@@ -10,7 +10,7 @@ FRONTEND_URL = os.getenv('FRONTEND_URL', 'http://ec2-51-20-132-244.eu-north-1.co
 
 @bp.route("/submit-reservation", methods=["POST"])
 def submit_reservation():
-    # Récupération et traitement des données
+    # Récupérer et traiter les données
     data = request.form
     people_count = int(data.get("peopleCount"))
     classic_count = int(data.get("classicCount"))
@@ -37,12 +37,12 @@ def submit_reservation():
         first_name=first_name,
         last_name=last_name,
         email=email,
-        phone=phone
+        phone=phone,
     )
     db.session.add(reservation)
     db.session.commit()
 
-    # Retourner les détails de la réservation en JSON
+    # Retourner les détails de la réservation
     return {
         "status": "success",
         "reservation": {
@@ -57,9 +57,8 @@ def submit_reservation():
             "Email": email,
             "Téléphone": phone,
             "Prix total (€)": total_price,
-        }
+        },
     }, 200
-
 
 @bp.route("/")
 def index():

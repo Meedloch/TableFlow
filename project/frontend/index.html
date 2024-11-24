@@ -12,7 +12,7 @@
 <body>
 <div class="container mt-5">
     <h1 class="text-center text-primary mb-4">Réserver une table</h1>
-    <form method="POST" action="http://ec2-51-20-132-244.eu-north-1.compute.amazonaws.com:5000/submit-reservation">
+    <form method="POST" action="http://ec2-51-20-132-244.eu-north-1.compute.amazonaws.com:5000/submit-reservation" id="reservationForm">
         <div class="mb-3">
             <label for="peopleCount" class="form-label">Nombre de personnes :</label>
             <input type="number" class="form-control" id="peopleCount" name="peopleCount" required>
@@ -68,18 +68,20 @@
 </div>
 <script>
     async function submitForm(event) {
-        event.preventDefault();
+        event.preventDefault(); // Empêcher le rechargement de la page
 
-        const formData = new FormData(event.target);
-        const data = Object.fromEntries(formData.entries());
+        const form = event.target;
+        const formData = new FormData(form);
+        const data = Object.fromEntries(formData.entries()); // Convertir en objet
 
         try {
+            // Envoi des données au backend
             const response = await fetch("http://ec2-51-20-132-244.eu-north-1.compute.amazonaws.com:5000/submit-reservation", {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
                 },
-                body: JSON.stringify(data)
+                body: JSON.stringify(data),
             });
 
             if (!response.ok) {
@@ -88,12 +90,12 @@
 
             const result = await response.json();
 
-            // Vérifiez que les données de réservation sont présentes
+            // Vérifier que les données de réservation existent
             if (result.reservation) {
                 // Stocker les données dans localStorage
                 localStorage.setItem("reservation", JSON.stringify(result.reservation));
 
-                // Redirection vers la page de résultat
+                // Rediriger vers la page de résultat
                 window.location.href = "/result";
             } else {
                 throw new Error("Aucune réservation trouvée.");
@@ -104,9 +106,8 @@
         }
     }
 
+    // Ajouter l'écouteur d'événement au formulaire
     document.getElementById("reservationForm").addEventListener("submit", submitForm);
 </script>
-
-
 </body>
 </html>
