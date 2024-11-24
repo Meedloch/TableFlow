@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Réserver une table</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h1 class="text-center text-primary mb-4">Réserver une table</h1>
+    <form method="POST" action="http://ec2-13-53-125-177.eu-north-1.compute.amazonaws.com:5000/submit-reservation" id="reservationForm">
+        <div class="mb-3">
+            <label for="peopleCount" class="form-label">Nombre de personnes :</label>
+            <input type="number" class="form-control" id="peopleCount" name="peopleCount" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="classicCount" class="form-label">Option classique :</label>
+            <input type="number" class="form-control" id="classicCount" name="classicCount" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="tastingCount" class="form-label">Option dégustation :</label>
+            <input type="number" class="form-control" id="tastingCount" name="tastingCount" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="wineSupplementCount" class="form-label">Supplément vin :</label>
+            <input type="number" class="form-control" id="wineSupplementCount" name="wineSupplementCount" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="reservationDate" class="form-label">Date :</label>
+            <input type="date" class="form-control" id="reservationDate" name="reservationDate" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="reservationTime" class="form-label">Heure :</label>
+            <input type="time" class="form-control" id="reservationTime" name="reservationTime" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="firstName" class="form-label">Prénom :</label>
+            <input type="text" class="form-control" id="firstName" name="firstName" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="lastName" class="form-label">Nom :</label>
+            <input type="text" class="form-control" id="lastName" name="lastName" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="email" class="form-label">Email :</label>
+            <input type="email" class="form-control" id="email" name="email" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="phone" class="form-label">Téléphone :</label>
+            <input type="tel" class="form-control" id="phone" name="phone" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100">Envoyer</button>
+    </form>
+</div>
+<div class="container mt-5">
+    <h2>Rechercher une réservation</h2>
+    <form id="searchForm">
+        <div class="mb-3">
+            <label for="reservationId" class="form-label">Numéro de réservation :</label>
+            <input type="text" class="form-control" id="reservationId" placeholder="Entrez le numéro de réservation" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Rechercher</button>
+    </form>
+    <div id="searchResult" class="mt-4"></div>
+</div>
+
+<script>
+    document.getElementById("searchForm").addEventListener("submit", async function (event) {
+    event.preventDefault(); // Empêche le rechargement de la page
+
+    const reservationId = document.getElementById("reservationId").value; // Récupère l'ID saisi
+
+    try {
+        // Envoi d'une requête GET au backend
+        const response = await fetch(`http://ec2-13-53-125-177.eu-north-1.compute.amazonaws.com:5000/find-reservation/${reservationId}`);
+
+        if (!response.ok) {
+            // Si le statut HTTP n'est pas 200, lance une erreur
+            throw new Error(`Erreur ${response.status}: Réservation introuvable ou autre problème.`);
+        }
+
+        const result = await response.json(); // Parse la réponse JSON
+        if (result.status === "success") {
+            // Affiche les détails de la réservation si tout va bien
+            const reservation = result.reservation;
+            document.getElementById("searchResult").innerHTML = `
+                <h3>Résultats :</h3>
+                <ul class="list-group">
+                    <li class="list-group-item"><strong>Nombre de personnes :</strong> ${reservation["Nombre de personnes"]}</li>
+                    <li class="list-group-item"><strong>Option classique :</strong> ${reservation["Option classique (40€)"]}</li>
+                    <li class="list-group-item"><strong>Option dégustation :</strong> ${reservation["Option dégustation (60€)"]}</li>
+                    <li class="list-group-item"><strong>Supplément vin :</strong> ${reservation["Supplément vin (20€)"]}</li>
+                    <li class="list-group-item"><strong>Date :</strong> ${reservation["Date"]}</li>
+                    <li class="list-group-item"><strong>Heure :</strong> ${reservation["Heure"]}</li>
+                    <li class="list-group-item"><strong>Prénom :</strong> ${reservation["Prénom"]}</li>
+                    <li class="list-group-item"><strong>Nom :</strong> ${reservation["Nom"]}</li>
+                    <li class="list-group-item"><strong>Email :</strong> ${reservation["Email"]}</li>
+                    <li class="list-group-item"><strong>Téléphone :</strong> ${reservation["Téléphone"]}</li>
+                </ul>
+            `;
+        } else {
+            // Affiche un message si la réservation n'est pas trouvée
+            document.getElementById("searchResult").innerHTML = `<p class="text-danger">${result.message}</p>`;
+        }
+    } catch (error) {
+        // Affiche un message d'erreur en cas de problème
+        console.error("Erreur :", error.message);
+        document.getElementById("searchResult").innerHTML = `<p class="text-danger">Une erreur est survenue lors de la recherche.</p>`;
+    }
+});
+
+
+</script>
+
+<script>
+async function submitForm(event) {
+    event.preventDefault();
+
+    const formData = new FormData(event.target);
+    const data = Object.fromEntries(formData.entries());
+
+    try {
+        const response = await fetch("http://ec2-13-53-125-177.eu-north-1.compute.amazonaws.com:5000/submit-reservation", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(`Erreur ${response.status}: ${errorData.message}`);
+        }
+
+        const result = await response.json();
+        if (result.reservation && result.reservation_id) {
+            // Stocker les détails de la réservation et le numéro unique
+            localStorage.setItem("reservation", JSON.stringify(result.reservation));
+            localStorage.setItem("reservation_id", result.reservation_id);
+
+            // Redirection vers la page de résultats
+            window.location.href = "/result";
+        } else {
+            throw new Error("Aucune réservation trouvée.");
+        }
+    } catch (error) {
+        console.error("Erreur détectée :", error.message);
+        alert(`Une erreur est survenue : ${error.message}`);
+    }
+}
+
+document.getElementById("reservationForm").addEventListener("submit", submitForm);
+
+</script>
+</body>
+</html>
