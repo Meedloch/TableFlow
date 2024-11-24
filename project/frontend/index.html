@@ -114,7 +114,7 @@
 </script>
 
 <script>
-    async function submitForm(event) {
+async function submitForm(event) {
     event.preventDefault();
 
     const formData = new FormData(event.target);
@@ -136,8 +136,11 @@
 
         const result = await response.json();
         if (result.reservation && result.reservation_id) {
+            // Stocker les détails de la réservation et le numéro unique
             localStorage.setItem("reservation", JSON.stringify(result.reservation));
             localStorage.setItem("reservation_id", result.reservation_id);
+
+            // Redirection vers la page de résultats
             window.location.href = "/result";
         } else {
             throw new Error("Aucune réservation trouvée.");
