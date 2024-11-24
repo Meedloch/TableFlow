@@ -68,14 +68,12 @@
 </div>
 <script>
     async function submitForm(event) {
-        event.preventDefault(); // Empêcher le rechargement de la page
+        event.preventDefault();
 
-        const form = event.target;
-        const formData = new FormData(form);
-        const data = Object.fromEntries(formData.entries()); // Convertir en objet
+        const formData = new FormData(event.target);
+        const data = Object.fromEntries(formData.entries());
 
         try {
-            // Envoi des données au backend
             const response = await fetch("http://ec2-51-20-132-244.eu-north-1.compute.amazonaws.com:5000/submit-reservation", {
                 method: "POST",
                 headers: {
@@ -85,28 +83,24 @@
             });
 
             if (!response.ok) {
-                throw new Error("Erreur lors de la soumission.");
+                const errorData = await response.json(); // Essayez de lire la réponse
+                throw new Error(`Erreur ${response.status}: ${errorData.message || "Erreur inconnue."}`);
             }
 
             const result = await response.json();
 
-            // Vérifier que les données de réservation existent
             if (result.reservation) {
-                // Stocker les données dans localStorage
                 localStorage.setItem("reservation", JSON.stringify(result.reservation));
-
-                // Rediriger vers la page de résultat
                 window.location.href = "/result";
             } else {
                 throw new Error("Aucune réservation trouvée.");
             }
         } catch (error) {
-            console.error(error);
-            alert("Une erreur est survenue. Veuillez réessayer.");
+            console.error("Erreur détectée :", error.message);
+            alert(`Une erreur est survenue : ${error.message}`);
         }
     }
 
-    // Ajouter l'écouteur d'événement au formulaire
     document.getElementById("reservationForm").addEventListener("submit", submitForm);
 </script>
 </body>
