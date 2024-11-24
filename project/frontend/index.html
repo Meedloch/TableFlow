@@ -68,36 +68,38 @@
 </div>
 <script>
     async function submitForm(event) {
-        event.preventDefault();
+    event.preventDefault();
 
-        const formData = new FormData(event.target);
-        const data = Object.fromEntries(formData.entries());
+    const formData = new FormData(event.target);
+    const data = Object.fromEntries(formData.entries());
 
-        try {
-            const response = await fetch("http://localhost:5000/submit-reservation", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(data)
-            });
+    try {
+        const response = await fetch("http://ec2-51-20-132-244.eu-north-1.compute.amazonaws.com:5000/submit-reservation", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+        });
 
-            if (!response.ok) {
-                throw new Error("Erreur lors de la soumission.");
-            }
-
-            const result = await response.json();
-
-            // Rediriger vers la page de résultat avec les données
-            localStorage.setItem("reservation", JSON.stringify(result.reservation));
-            window.location.href = "/result";
-        } catch (error) {
-            console.error(error);
-            alert("Une erreur est survenue. Veuillez réessayer.");
+        if (!response.ok) {
+            throw new Error("Erreur lors de la soumission.");
         }
-    }
 
-    document.getElementById("reservationForm").addEventListener("submit", submitForm);
+        const result = await response.json();
+
+        // Stocker les données dans localStorage
+        localStorage.setItem("reservation", JSON.stringify(result.reservation));
+
+        // Redirection vers la page de résultat
+        window.location.href = "/result";
+    } catch (error) {
+        console.error(error);
+        alert("Une erreur est survenue. Veuillez réessayer.");
+    }
+}
+
+document.getElementById("reservationForm").addEventListener("submit", submitForm);
 </script>
 
 </body>
