@@ -10,7 +10,7 @@ FRONTEND_URL = os.getenv('FRONTEND_URL', 'http://ec2-51-20-132-244.eu-north-1.co
 
 @bp.route("/submit-reservation", methods=["POST"])
 def submit_reservation():
-    # Récupérer les données du formulaire
+    # Récupération et traitement des données
     data = request.form
     people_count = int(data.get("peopleCount"))
     classic_count = int(data.get("classicCount"))
@@ -42,24 +42,24 @@ def submit_reservation():
     db.session.add(reservation)
     db.session.commit()
 
-    # Stocker les données nécessaires dans une redirection GET
-    reservation_details = {
-        "Nombre de personnes": people_count,
-        "Option classique (40€)": classic_count,
-        "Option dégustation (60€)": tasting_count,
-        "Supplément vin (20€)": wine_count,
-        "Date": reservation_date,
-        "Heure": reservation_time,
-        "Prénom": first_name,
-        "Nom": last_name,
-        "Email": email,
-        "Téléphone": phone,
-        "Prix total (€)": total_price,
-    }
+    # Retourner les détails de la réservation en JSON
+    return {
+        "status": "success",
+        "reservation": {
+            "Nombre de personnes": people_count,
+            "Option classique (40€)": classic_count,
+            "Option dégustation (60€)": tasting_count,
+            "Supplément vin (20€)": wine_count,
+            "Date": reservation_date,
+            "Heure": reservation_time,
+            "Prénom": first_name,
+            "Nom": last_name,
+            "Email": email,
+            "Téléphone": phone,
+            "Prix total (€)": total_price,
+        }
+    }, 200
 
-    # Stocker les données dans LocalStorage (via frontend) ou dans une URL GET
-    # Rediriger vers le frontend
-    return redirect(f"{FRONTEND_URL}/result")
 
 @bp.route("/")
 def index():

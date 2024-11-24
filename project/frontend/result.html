@@ -25,14 +25,14 @@
     document.addEventListener("DOMContentLoaded", () => {
         const reservation = JSON.parse(localStorage.getItem("reservation"));
 
-        // Vérifier si les données sont disponibles
+        // Vérifier si les données existent
         if (!reservation) {
             alert("Aucune réservation trouvée. Vous allez être redirigé vers la page d'accueil.");
             window.location.href = "/";
             return;
         }
 
-        // Générer les détails de la réservation
+        // Afficher les données de réservation
         const detailsList = document.getElementById("reservationDetails");
         detailsList.innerHTML = `
             <li class="list-group-item"><strong>Nombre de personnes :</strong> ${reservation["Nombre de personnes"]}</li>
