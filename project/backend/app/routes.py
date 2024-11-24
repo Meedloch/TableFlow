@@ -10,22 +10,29 @@ def index():
 
 @bp.route("/submit-reservation", methods=["POST"])
 def submit_reservation():
+    # Récupération et traitement des données
     data = request.form
-    reservation = Reservation(
-        people_count=data.get("peopleCount"),
-        classic_count=data.get("classicCount"),
-        tasting_count=data.get("tastingCount"),
-        wine_count=data.get("wineSupplementCount"),
-        reservation_date=data.get("reservationDate"),
-        reservation_time=data.get("reservationTime"),
-        first_name=data.get("firstName"),
-        last_name=data.get("lastName"),
-        email=data.get("email"),
-        phone=data.get("phone")
-    )
-    db.session.add(reservation)
-    db.session.commit()
-    return jsonify({"message": "Réservation enregistrée avec succès."})
+    reservation = {
+        "Nombre de personnes": data.get("peopleCount"),
+        "Option classique (40€)": data.get("classicCount"),
+        "Option dégustation (60€)": data.get("tastingCount"),
+        "Supplément vin (20€)": data.get("wineSupplementCount"),
+        "Date": data.get("reservationDate"),
+        "Heure": data.get("reservationTime"),
+        "Prénom": data.get("firstName"),
+        "Nom": data.get("lastName"),
+        "Email": data.get("email"),
+        "Téléphone": data.get("phone"),
+        "Prix total (€)": (
+            int(data.get("classicCount")) * 40 +
+            int(data.get("tastingCount")) * 60 +
+            int(data.get("wineSupplementCount")) * 20
+        ),
+    }
+
+    # Afficher la page result.html avec les détails
+    return render_template("result.html", reservation=reservation)
+
 
 def is_valid_date(date_str):
     try:
