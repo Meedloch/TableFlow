@@ -10,7 +10,7 @@ FRONTEND_URL = os.getenv('FRONTEND_URL', 'http://ec2-51-20-132-244.eu-north-1.co
 
 @bp.route("/submit-reservation", methods=["POST"])
 def submit_reservation():
-    # Récupération des données du formulaire
+    # Récupérer les données du formulaire
     data = request.form
     people_count = int(data.get("peopleCount"))
     classic_count = int(data.get("classicCount"))
@@ -23,27 +23,27 @@ def submit_reservation():
     email = data.get("email")
     phone = data.get("phone")
 
-    # Calcul du prix total
+    # Calculer le coût total
     total_price = (classic_count * 40) + (tasting_count * 60) + (wine_count * 20)
 
-    # Enregistrement en base de données
-    reservation = Reservation(
-        people_count=people_count,
-        classic_count=classic_count,
-        tasting_count=tasting_count,
-        wine_count=wine_count,
-        reservation_date=reservation_date,
-        reservation_time=reservation_time,
-        first_name=first_name,
-        last_name=last_name,
-        email=email,
-        phone=phone
-    )
-    db.session.add(reservation)
-    db.session.commit()
+    # Préparer les données pour le template
+    reservation = {
+        "Nombre de personnes": people_count,
+        "Option classique (40€)": classic_count,
+        "Option dégustation (60€)": tasting_count,
+        "Supplément vin (20€)": wine_count,
+        "Date": reservation_date,
+        "Heure": reservation_time,
+        "Prénom": first_name,
+        "Nom": last_name,
+        "Email": email,
+        "Téléphone": phone,
+        "Prix total (€)": total_price,
+    }
 
-    # Redirection vers la page de résultat dans le frontend
-    return redirect(f"{FRONTEND_URL}/result")
+    # Retourner la page result.html avec les données
+    return render_template("result.html", reservation=reservation)
+
 
 @bp.route("/")
 def index():
