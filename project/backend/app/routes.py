@@ -74,10 +74,11 @@ def submit_reservation():
 @bp.route("/find-reservation/<reservation_id>", methods=["GET"])
 def find_reservation(reservation_id):
     try:
-        # Chercher la réservation dans la base
+        # Chercher la réservation
         reservation = Reservation.query.filter_by(reservation_id=reservation_id).first()
 
         if not reservation:
+            # Retourner une erreur JSON si la réservation n'est pas trouvée
             return jsonify({"status": "error", "message": "Réservation introuvable"}), 404
 
         # Retourner les détails de la réservation
@@ -97,7 +98,7 @@ def find_reservation(reservation_id):
             },
         }), 200
     except Exception as e:
-        # En cas d'erreur, retourner une réponse JSON
+        # Retourner une erreur JSON en cas d'exception
         return jsonify({"status": "error", "message": str(e)}), 400
 
 
