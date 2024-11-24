@@ -80,14 +80,22 @@
 
 <script>
     document.getElementById("searchForm").addEventListener("submit", async function (event) {
-    event.preventDefault();
-    const reservationId = document.getElementById("reservationId").value;
+    event.preventDefault(); // Empêche le rechargement de la page
+
+    const reservationId = document.getElementById("reservationId").value; // Récupère l'ID saisi
 
     try {
-        const response = await fetch(`/find-reservation/${reservationId}`);
-        const result = await response.json();
+        // Envoi d'une requête GET au backend
+        const response = await fetch(`http://ec2-13-53-125-177.eu-north-1.compute.amazonaws.com:5000/find-reservation/${reservationId}`);
 
+        if (!response.ok) {
+            // Si le statut HTTP n'est pas 200, lance une erreur
+            throw new Error(`Erreur ${response.status}: Réservation introuvable ou autre problème.`);
+        }
+
+        const result = await response.json(); // Parse la réponse JSON
         if (result.status === "success") {
+            // Affiche les détails de la réservation si tout va bien
             const reservation = result.reservation;
             document.getElementById("searchResult").innerHTML = `
                 <h3>Résultats :</h3>
@@ -105,13 +113,16 @@
                 </ul>
             `;
         } else {
+            // Affiche un message si la réservation n'est pas trouvée
             document.getElementById("searchResult").innerHTML = `<p class="text-danger">${result.message}</p>`;
         }
     } catch (error) {
-        console.error("Erreur :", error);
+        // Affiche un message d'erreur en cas de problème
+        console.error("Erreur :", error.message);
         document.getElementById("searchResult").innerHTML = `<p class="text-danger">Une erreur est survenue lors de la recherche.</p>`;
     }
 });
+
 
 </script>
 
