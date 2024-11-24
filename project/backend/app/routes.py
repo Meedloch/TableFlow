@@ -1,53 +1,47 @@
-from flask import Blueprint, request, jsonify, render_template
+from flask import Blueprint, request, redirect, render_template
 from app.models import Reservation
 from app import db
-import os
 
 bp = Blueprint('main', __name__)
 
-@bp.route("/")
-def index():
-    return render_template("form.html")
-
 @bp.route("/submit-reservation", methods=["POST"])
 def submit_reservation():
-    # Récupération et traitement des données
+    # Récupération des données du formulaire
     data = request.form
-    reservation = {
-        "Nombre de personnes": data.get("peopleCount"),
-        "Option classique (40€)": data.get("classicCount"),
-        "Option dégustation (60€)": data.get("tastingCount"),
-        "Supplément vin (20€)": data.get("wineSupplementCount"),
-        "Date": data.get("reservationDate"),
-        "Heure": data.get("reservationTime"),
-        "Prénom": data.get("firstName"),
-        "Nom": data.get("lastName"),
-        "Email": data.get("email"),
-        "Téléphone": data.get("phone"),
-        "Prix total (€)": (
-            int(data.get("classicCount")) * 40 +
-            int(data.get("tastingCount")) * 60 +
-            int(data.get("wineSupplementCount")) * 20
-        ),
-    }
+    people_count = int(data.get("peopleCount"))
+    classic_count = int(data.get("classicCount"))
+    tasting_count = int(data.get("tastingCount"))
+    wine_count = int(data.get("wineSupplementCount"))
+    reservation_date = data.get("reservationDate")
+    reservation_time = data.get("reservationTime")
+    first_name = data.get("firstName")
+    last_name = data.get("lastName")
+    email = data.get("email")
+    phone = data.get("phone")
 
-    # Afficher la page result.html avec les détails
-    frontend_url = os.getenv('FRONTEND_URL', 'http://localhost:8080')
-    return render_template("result.html", reservation=reservation)
+    # Calcul du prix total
+    total_price = (classic_count * 40) + (tasting_count * 60) + (wine_count * 20)
 
+    # Enregistrement en base de données
+    reservation = Reservation(
+        people_count=people_count,
+        classic_count=classic_count,
+        tasting_count=tasting_count,
+        wine_count=wine_count,
+        reservation_date=reservation_date,
+        reservation_time=reservation_time,
+        first_name=first_name,
+        last_name=last_name,
+        email=email,
+        phone=phone
+    )
+    db.session.add(reservation)
+    db.session.commit()
 
-def is_valid_date(date_str):
-    try:
-        date = datetime.datetime.strptime(date_str, "%Y-%m-%d").date()
-        if date.weekday() not in [1, 2, 3, 4, 5]:  # Mardi à samedi
-            return False
-        return True
-    except ValueError:
-        return False
+    # Redirection vers la page de résultat dans le frontend
+    frontend_result_url = "{{ frontend_url }}/result"
+    return redirect(frontend_result_url)
 
-def is_valid_time(date_str, time_str):
-    try:
-        time = datetime.datetime.strptime(time_str, "%H:%M").time()
-        return datetime.time(11, 30) <= time <= datetime.time(13, 30) or datetime.time(19, 30) <= time <= datetime.time(21, 30)
-    except ValueError:
-        return False
+@bp.route("/")
+def index():
+    return render_template("index.html")
