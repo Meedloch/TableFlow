@@ -1,5 +1,5 @@
 import os
-from flask import Blueprint, request, redirect, render_template
+from flask import Blueprint, request, redirect, render_template, jsonify
 from app.models import Reservation
 from app import db
 
