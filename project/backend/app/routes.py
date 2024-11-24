@@ -6,7 +6,7 @@ from app import db
 bp = Blueprint('main', __name__)
 
 # URL du frontend
-FRONTEND_URL = os.getenv('FRONTEND_URL', 'http://ec2-51-20-132-244.eu-north-1.compute.amazonaws.com:8080')
+FRONTEND_URL = os.getenv('FRONTEND_URL', 'http://ec2-13-53-125-177.eu-north-1.compute.amazonaws.com:8080')
 
 @bp.route("/submit-reservation", methods=["POST"])
 def submit_reservation():
