@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify, render_template
 from app.models import Reservation
 from app import db
+import os
 
 bp = Blueprint('main', __name__)
 
@@ -31,6 +32,7 @@ def submit_reservation():
     }
 
     # Afficher la page result.html avec les détails
+    frontend_url = os.getenv('FRONTEND_URL', 'http://localhost:8080')
     return render_template("result.html", reservation=reservation)
 
 
