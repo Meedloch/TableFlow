@@ -2,8 +2,7 @@ FROM nginx:alpine
 
 WORKDIR /usr/share/nginx/html
 
-# Copier les fichiers HTML/CSS dans le conteneur
-COPY . .
+COPY . /usr/share/nginx/html
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-# Exposer le port 80
 EXPOSE 80
