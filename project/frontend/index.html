@@ -79,38 +79,40 @@
 </div>
 
 <script>
-    document.getElementById("searchForm").addEventListener("submit", async function(event) {
-        event.preventDefault();
-        const reservationId = document.getElementById("reservationId").value;
+    document.getElementById("searchForm").addEventListener("submit", async function (event) {
+    event.preventDefault();
+    const reservationId = document.getElementById("reservationId").value;
 
-        try {
-            const response = await fetch(`/find-reservation/${reservationId}`);
-            const result = await response.json();
+    try {
+        const response = await fetch(`/find-reservation/${reservationId}`);
+        const result = await response.json();
 
-            if (result.status === "success") {
-                const reservation = result.reservation;
-                document.getElementById("searchResult").innerHTML = `
-                    <h3>Résultats :</h3>
-                    <ul class="list-group">
-                        <li class="list-group-item"><strong>Nombre de personnes :</strong> ${reservation["Nombre de personnes"]}</li>
-                        <li class="list-group-item"><strong>Option classique :</strong> ${reservation["Option classique (40€)"]}</li>
-                        <li class="list-group-item"><strong>Option dégustation :</strong> ${reservation["Option dégustation (60€)"]}</li>
-                        <li class="list-group-item"><strong>Supplément vin :</strong> ${reservation["Supplément vin (20€)"]}</li>
-                        <li class="list-group-item"><strong>Date :</strong> ${reservation["Date"]}</li>
-                        <li class="list-group-item"><strong>Heure :</strong> ${reservation["Heure"]}</li>
-                        <li class="list-group-item"><strong>Prénom :</strong> ${reservation["Prénom"]}</li>
-                        <li class="list-group-item"><strong>Nom :</strong> ${reservation["Nom"]}</li>
-                        <li class="list-group-item"><strong>Email :</strong> ${reservation["Email"]}</li>
-                        <li class="list-group-item"><strong>Téléphone :</strong> ${reservation["Téléphone"]}</li>
-                    </ul>
-                `;
-            } else {
-                document.getElementById("searchResult").innerHTML = `<p class="text-danger">${result.message}</p>`;
-            }
-        } catch (error) {
-            document.getElementById("searchResult").innerHTML = `<p class="text-danger">Une erreur est survenue.</p>`;
+        if (result.status === "success") {
+            const reservation = result.reservation;
+            document.getElementById("searchResult").innerHTML = `
+                <h3>Résultats :</h3>
+                <ul class="list-group">
+                    <li class="list-group-item"><strong>Nombre de personnes :</strong> ${reservation["Nombre de personnes"]}</li>
+                    <li class="list-group-item"><strong>Option classique :</strong> ${reservation["Option classique (40€)"]}</li>
+                    <li class="list-group-item"><strong>Option dégustation :</strong> ${reservation["Option dégustation (60€)"]}</li>
+                    <li class="list-group-item"><strong>Supplément vin :</strong> ${reservation["Supplément vin (20€)"]}</li>
+                    <li class="list-group-item"><strong>Date :</strong> ${reservation["Date"]}</li>
+                    <li class="list-group-item"><strong>Heure :</strong> ${reservation["Heure"]}</li>
+                    <li class="list-group-item"><strong>Prénom :</strong> ${reservation["Prénom"]}</li>
+                    <li class="list-group-item"><strong>Nom :</strong> ${reservation["Nom"]}</li>
+                    <li class="list-group-item"><strong>Email :</strong> ${reservation["Email"]}</li>
+                    <li class="list-group-item"><strong>Téléphone :</strong> ${reservation["Téléphone"]}</li>
+                </ul>
+            `;
+        } else {
+            document.getElementById("searchResult").innerHTML = `<p class="text-danger">${result.message}</p>`;
         }
-    });
+    } catch (error) {
+        console.error("Erreur :", error);
+        document.getElementById("searchResult").innerHTML = `<p class="text-danger">Une erreur est survenue lors de la recherche.</p>`;
+    }
+});
+
 </script>
 
 <script>

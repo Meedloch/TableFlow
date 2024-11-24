@@ -74,7 +74,7 @@ def submit_reservation():
 @bp.route("/find-reservation/<reservation_id>", methods=["GET"])
 def find_reservation(reservation_id):
     try:
-        # Rechercher la réservation en base de données
+        # Chercher la réservation dans la base
         reservation = Reservation.query.filter_by(reservation_id=reservation_id).first()
 
         if not reservation:
@@ -97,7 +97,9 @@ def find_reservation(reservation_id):
             },
         }), 200
     except Exception as e:
+        # En cas d'erreur, retourner une réponse JSON
         return jsonify({"status": "error", "message": str(e)}), 400
+
 
 @bp.route("/")
 def index():
