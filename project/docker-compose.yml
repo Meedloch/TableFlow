@@ -4,17 +4,28 @@ services:
   backend:
     build:
       context: ./backend
-      dockerfile: Dockerfile
     ports:
-      - "5000:5000"  # Mappe le port interne 5000 du backend au port 5000 de l'hôte
-    restart: always  # Redémarre automatiquement le conteneur en cas de crash
+      - "5000:5000"
     environment:
-      - FLASK_ENV=production  # Configuration pour Flask (production par défaut)
+      - FLASK_ENV=production
+    depends_on:
+      - db
 
   frontend:
     build:
       context: ./frontend
-      dockerfile: Dockerfile
     ports:
-      - "8080:80"  # Mappe le port interne 80 du frontend au port 8080 de l'hôte
-    restart: always  # Redémarre automatiquement le conteneur en cas de crash
+      - "8080:80"
+
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: reservations
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+
+volumes:
+  db_data:

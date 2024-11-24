@@ -3,11 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Frontend</title>
+    <title>Réserver une table</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Frontend Page</h1>
-    <a href="http://ec2-51-20-132-244.eu-north-1.compute.amazonaws.com:5000/">Aller vers le backend</a>
+<div class="container">
+    <h1>Réserver une table</h1>
+    <form method="POST" action="http://localhost:5000/submit-reservation">
+        <label for="peopleCount">Nombre de personnes :</label>
+        <input type="number" id="peopleCount" name="peopleCount" required>
+
+        <label for="classicCount">Option classique :</label>
+        <input type="number" id="classicCount" name="classicCount" required>
+
+        <label for="tastingCount">Option dégustation :</label>
+        <input type="number" id="tastingCount" name="tastingCount" required>
+
+        <label for="wineSupplementCount">Supplément vin :</label>
+        <input type="number" id="wineSupplementCount" name="wineSupplementCount" required>
+
+        <label for="reservationDate">Date :</label>
+        <input type="date" id="reservationDate" name="reservationDate" required>
+
+        <label for="reservationTime">Heure :</label>
+        <input type="time" id="reservationTime" name="reservationTime" required>
+
+        <label for="firstName">Prénom :</label>
+        <input type="text" id="firstName" name="firstName" required>
+
+        <label for="lastName">Nom :</label>
+        <input type="text" id="lastName" name="lastName" required>
+
+        <label for="email">Email :</label>
+        <input type="email" id="email" name="email" required>
+
+        <label for="phone">Téléphone :</label>
+        <input type="tel" id="phone" name="phone" required>
+
+        <button type="submit">Envoyer</button>
+    </form>
+</div>
 </body>
 </html>
