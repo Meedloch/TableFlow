@@ -12,7 +12,7 @@
 <body>
 <div class="container mt-5">
     <h1 class="text-center text-primary mb-4">Réserver une table</h1>
-    <form method="POST" action="http://ec2-51-20-132-244.eu-north-1.compute.amazonaws.com:5000/submit-reservation" id="reservationForm">
+    <form method="POST" action="http://ec2-13-53-125-177.eu-north-1.compute.amazonaws.com:5000/submit-reservation" id="reservationForm">
         <div class="mb-3">
             <label for="peopleCount" class="form-label">Nombre de personnes :</label>
             <input type="number" class="form-control" id="peopleCount" name="peopleCount" required>
@@ -121,7 +121,7 @@
     const data = Object.fromEntries(formData.entries());
 
     try {
-        const response = await fetch("http://ec2-51-20-132-244.eu-north-1.compute.amazonaws.com:5000/submit-reservation", {
+        const response = await fetch("http://ec2-13-53-125-177.eu-north-1.compute.amazonaws.com:5000/submit-reservation", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

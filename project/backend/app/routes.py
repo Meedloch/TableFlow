@@ -13,6 +13,7 @@ def submit_reservation():
     try:
         # Récupérer les données envoyées dans la requête JSON
         data = request.get_json()
+        print(f"Reçu : {data}")  # Loguer les données reçues
 
         # Extraire les champs du formulaire
         people_count = int(data["peopleCount"])
