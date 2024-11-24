@@ -66,5 +66,39 @@
         <button type="submit" class="btn btn-primary w-100">Envoyer</button>
     </form>
 </div>
+<script>
+    async function submitForm(event) {
+        event.preventDefault();
+
+        const formData = new FormData(event.target);
+        const data = Object.fromEntries(formData.entries());
+
+        try {
+            const response = await fetch("http://localhost:5000/submit-reservation", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            });
+
+            if (!response.ok) {
+                throw new Error("Erreur lors de la soumission.");
+            }
+
+            const result = await response.json();
+
+            // Rediriger vers la page de résultat avec les données
+            localStorage.setItem("reservation", JSON.stringify(result.reservation));
+            window.location.href = "/result";
+        } catch (error) {
+            console.error(error);
+            alert("Une erreur est survenue. Veuillez réessayer.");
+        }
+    }
+
+    document.getElementById("reservationForm").addEventListener("submit", submitForm);
+</script>
+
 </body>
 </html>
