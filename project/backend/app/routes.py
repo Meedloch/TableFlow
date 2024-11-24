@@ -1,8 +1,12 @@
+import os
 from flask import Blueprint, request, redirect, render_template
 from app.models import Reservation
 from app import db
 
 bp = Blueprint('main', __name__)
+
+# URL du frontend
+FRONTEND_URL = os.getenv('FRONTEND_URL', 'http://ec2-51-20-132-244.eu-north-1.compute.amazonaws.com:8080')
 
 @bp.route("/submit-reservation", methods=["POST"])
 def submit_reservation():
@@ -39,8 +43,7 @@ def submit_reservation():
     db.session.commit()
 
     # Redirection vers la page de résultat dans le frontend
-    frontend_result_url = "{{ frontend_url }}/result"
-    return redirect(frontend_result_url)
+    return redirect(f"{FRONTEND_URL}/result")
 
 @bp.route("/")
 def index():
