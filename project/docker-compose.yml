@@ -22,7 +22,7 @@ services:
       - "5000:5000"
     environment:
       - FLASK_ENV=production
-      - FRONTEND_URL=http://tableflow.ddns.net:8080
+      - FRONTEND_URL=https://tableflow.ddns.net
     depends_on:
       - db
 
