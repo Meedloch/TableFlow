@@ -1,6 +1,7 @@
 version: '3.12'
 
 services:
+
   backend:
     build:
       context: ./backend
@@ -8,7 +9,7 @@ services:
       - "5000:5000"
     environment:
       - FLASK_ENV=production
-      - FRONTEND_URL=http://ec2-51-20-132-244.eu-north-1.compute.amazonaws.com:8080
+      - FRONTEND_URL=https://tableflow.ddns.net
     depends_on:
       - db
 
@@ -17,6 +18,8 @@ services:
       context: ./frontend
     ports:
       - "8080:80"
+    expose:
+      - "80"
 
   db:
     image: mysql:8.0

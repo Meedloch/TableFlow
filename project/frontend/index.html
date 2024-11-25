@@ -12,7 +12,7 @@
 <body>
 <div class="container mt-5">
     <h1 class="text-center text-primary mb-4">Réserver une table</h1>
-    <form method="POST" action="http://ec2-13-53-125-177.eu-north-1.compute.amazonaws.com:5000/submit-reservation" id="reservationForm">
+    <form method="POST" action="/api/submit-reservation" id="reservationForm">
         <div class="mb-3">
             <label for="peopleCount" class="form-label">Nombre de personnes :</label>
             <input type="number" class="form-control" id="peopleCount" name="peopleCount" required>
@@ -77,7 +77,7 @@
     </form>
     <div id="searchResult" class="mt-4"></div>
 </div>
-
+<!--
 <script>
     document.getElementById("searchForm").addEventListener("submit", async function (event) {
     event.preventDefault(); // Empêche le rechargement de la page
@@ -86,7 +86,7 @@
 
     try {
         // Envoi d'une requête GET au backend
-        const response = await fetch(`http://ec2-13-53-125-177.eu-north-1.compute.amazonaws.com:5000/find-reservation/${reservationId}`);
+        const response = await fetch(`/api/find-reservation/${reservationId}`);
 
         if (!response.ok) {
             // Si le statut HTTP n'est pas 200, lance une erreur
@@ -125,47 +125,9 @@
 
 
 </script>
+-->
 
-<script>
-async function submitForm(event) {
-    event.preventDefault();
+<script src="/static/js/reservation.js"></script>
 
-    const formData = new FormData(event.target);
-    const data = Object.fromEntries(formData.entries());
-
-    try {
-        const response = await fetch("http://ec2-13-53-125-177.eu-north-1.compute.amazonaws.com:5000/submit-reservation", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(data),
-        });
-
-        if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(`Erreur ${response.status}: ${errorData.message}`);
-        }
-
-        const result = await response.json();
-        if (result.reservation && result.reservation_id) {
-            // Stocker les détails de la réservation et le numéro unique
-            localStorage.setItem("reservation", JSON.stringify(result.reservation));
-            localStorage.setItem("reservation_id", result.reservation_id);
-
-            // Redirection vers la page de résultats
-            window.location.href = "/result";
-        } else {
-            throw new Error("Aucune réservation trouvée.");
-        }
-    } catch (error) {
-        console.error("Erreur détectée :", error.message);
-        alert(`Une erreur est survenue : ${error.message}`);
-    }
-}
-
-document.getElementById("reservationForm").addEventListener("submit", submitForm);
-
-</script>
 </body>
 </html>
