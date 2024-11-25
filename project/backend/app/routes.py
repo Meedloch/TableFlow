@@ -1,14 +1,16 @@
 import os
-from flask import Blueprint, request, redirect, render_template, jsonify
+from flask import Blueprint, request, jsonify, render_template
 from app.models import Reservation
 from app import db
 
+# Création du Blueprint
 bp = Blueprint('main', __name__)
 
-# URL du frontend
-FRONTEND_URL = os.getenv('FRONTEND_URL', 'http://ec2-13-53-125-177.eu-north-1.compute.amazonaws.com:8080')
+# URL du frontend (assurez-vous que l'environnement FRONTEND_URL est correctement configuré)
+FRONTEND_URL = os.getenv('FRONTEND_URL', 'https://tableflow.ddns.net')
 
-@bp.route("/submit-reservation", methods=["POST"])
+# Route pour soumettre une réservation
+@bp.route("/api/submit-reservation", methods=["POST"])
 def submit_reservation():
     try:
         # Récupérer les données envoyées dans la requête JSON
@@ -71,7 +73,9 @@ def submit_reservation():
         # En cas d'erreur, retourner une réponse JSON avec le message d'erreur
         return jsonify({"status": "error", "message": str(e)}), 400
 
-@bp.route("/find-reservation/<reservation_id>", methods=["GET"])
+
+# Route pour rechercher une réservation par ID
+@bp.route("/api/find-reservation/<reservation_id>", methods=["GET"])
 def find_reservation(reservation_id):
     try:
         # Chercher la réservation
@@ -102,6 +106,7 @@ def find_reservation(reservation_id):
         return jsonify({"status": "error", "message": str(e)}), 400
 
 
+# Route pour afficher l'index (frontend)
 @bp.route("/")
 def index():
     return render_template("index.html")
