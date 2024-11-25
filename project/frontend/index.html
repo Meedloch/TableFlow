@@ -12,7 +12,7 @@
 <body>
 <div class="container mt-5">
     <h1 class="text-center text-primary mb-4">Réserver une table</h1>
-    <form method="POST" action="localhost:5000/submit-reservation" id="reservationForm">
+    <form method="POST" action="/api/submit-reservation" id="reservationForm">
         <div class="mb-3">
             <label for="peopleCount" class="form-label">Nombre de personnes :</label>
             <input type="number" class="form-control" id="peopleCount" name="peopleCount" required>
@@ -77,7 +77,7 @@
     </form>
     <div id="searchResult" class="mt-4"></div>
 </div>
-
+<!--
 <script>
     document.getElementById("searchForm").addEventListener("submit", async function (event) {
     event.preventDefault(); // Empêche le rechargement de la page
@@ -125,6 +125,7 @@
 
 
 </script>
+-->
 
 <script src="/static/js/reservation.js"></script>
 
